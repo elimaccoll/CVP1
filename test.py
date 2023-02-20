@@ -4,9 +4,10 @@ import os
 import scipy.signal as sp
 import matplotlib.pyplot as plt
 
+DIR = "Office"
 images = [
-    os.path.join("RedChair", f)
-    for f in sorted(os.listdir("RedChair"))
+    os.path.join(DIR, f)
+    for f in sorted(os.listdir(DIR))
     if f.endswith(".jpg")
 ]
 
@@ -26,10 +27,11 @@ for i in range(len(gray) - 1):
 
     diff = sp.convolve2d(diff, kernal, mode="same", boundary="fill", fillvalue=0)
 
-    diff = cv2.GaussianBlur(diff, (5, 5), 5)
+    diff = cv2.GaussianBlur(diff, (3,3), 5)
 
     diff = np.uint8(diff)
-    thresh = cv2.threshold(diff, 20, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+    # thresh = cv2.threshold(diff, 50, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+    thresh = cv2.threshold(diff, 20, 255, cv2.THRESH_BINARY)[1]
 
     fg.append(thresh)
 
